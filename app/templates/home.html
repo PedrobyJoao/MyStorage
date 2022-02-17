@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Home
+{% endblock %}
+
+{% block main %}
+    <main class="container-md">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md">
+                    <img src="..\static\images\background.jpg" alt="" id="img" class="'img-fluid">
+                </div>
+                <div class="col g-3">
+                    <h3>Welcome to  <span style="color: rgb(226, 133, 19);"> MyStorage</span>!</h3>
+                    <h5 style="color:rgba(24, 15, 15, 0.315)">The place where you can keep track of your goods!</h5>
+                    <br>
+                    <p>Do you own a business and need a system to organize your storage? To see what products you still have, what did you sell, for what price, when?</p>
+                    <br>
+                    <p>Then we are a perfect match. I'm a software which can do all those things for you! Come with me, Register an account for free and start to organize your storage!</p>
+                </div>
+            </div>
+        </div>
+        <div class="container-md" style="margin-top: 5%;">
+            <div class="row">
+                <div class="col-md-5 h5 featuretextsize-mobile">
+                    <h4>Features:</h4>
+                    <ul>
+                        <li>Add/Delete products when buying/selling</li>
+                        <li>Select the certain quantity of products</li>
+                        <li>Create a category for each group of products</li>
+                        <li>Keep track of WHEN and for what PRICE the product was sold/bought</li>
+                    </ul>
+                </div>
+                <div class="col-sm-2" id="vertical_line">
+                    <div class="d-flex" style="height: 200px;">
+                        <div class="vr"></div>
+                      </div>
+                </div>
+                <div class="col-md-5 login-register-textsize" id="l-r-column">
+                    <a class="links" style="font-size: 250%;" href="login.html">Login</a>
+                    OR
+                    <a class="links" style="font-size: 250%;" href="register.html">Register</a>
+                </div>
+            </div>
+        </div>
+        <div class="container-md contact-margin" style="margin-top: 8%;">
+            <div class="row text-center" id="contact">
+                <h1 style="font-size: 200%;">Contact</h1>
+                <h5 class="featuretextsize-mobile" style="font-size: 100%;">Let your message and email describing what you need to know about our service!</h5>
+            </div><br>
+            <div class="row forms">
+                <form action="">
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email address</label>
+                        <input type="email" class="form-control" id="email" placeholder="name@example.com">
+                    </div>
+                    <div class="mb-3">
+                        <label for="message" class="form-label">Message</label>
+                        <textarea class="form-control" id="message" rows="6" placeholder="Type your message here"></textarea>
+                    </div>
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="check">
+                        <label class="form-check-label" for="check">I'm not a robot</label>
+                      </div>
+                      <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </main>
+{% endblock %}
+     
+{% block footer %}
+<footer class="bg-light text-center text-lg-start footer-home">
+    <!-- Copyright -->
+    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+      © 2022 Copyright:
+      <a class="text-dark" href="https://github.com/PedrobyJoao">João Pedro Castro</a>
+    </div>
+    <!-- Copyright -->
+  </footer>
+  {% endblock %}

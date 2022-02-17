@@ -1,0 +1,129 @@
+@media screen and (max-width: 950px)  {
+    .mobile-break { display: none; }
+    .mobile-logo {  padding-left: 0% !important;}
+    .navbar{
+        font-size: 100%;
+        font-weight: 700;
+        letter-spacing: 0.1rem;
+        padding: 1rem 15rem;
+    }
+    main{
+        margin: 0;
+        box-sizing: border-box;
+        overflow-x: hidden;
+        padding-top: 10rem;
+    }
+}
+@media screen and (max-width: 767px){
+    .navbar{
+        padding: 1rem 1.8rem !important;
+    }
+    #vertical_line{
+        visibility: hidden;
+        clear: both;
+        float: left;
+        margin: 10px auto 5px 20px;
+        width: 28%;
+        display: none;
+    }
+    #img{
+        width: 100%;
+    }
+    .featuretextsize-mobile{
+        font-size: 90% !important;
+    }
+    .login-register-textsize{
+        margin-left: 10%;
+    }
+    p{
+        font-size: 90% !important;
+    }
+    #l-r-column{
+        margin-top: 15%;
+    }
+    .contact-margin{
+        margin-top:20% !important;
+    }
+}
+@media screen and (min-width: 950px)  {
+    .navbar.navbar-brand{
+        padding: 0 2rem 0 5rem;
+    }
+    .navbar{
+        font-size: 100%;
+        font-weight: 700;
+        letter-spacing: 0.1rem;
+        padding: 1rem 20rem;
+    }
+    .forms{
+        width: 90%;
+        padding-left: 11%;
+    }
+    .login-forms{
+        width: 30%;
+        margin-left: 35%;
+    }
+    main{
+        margin: 0;
+        box-sizing: border-box;
+        overflow-x: hidden;
+        padding: 10rem 2rem 0 5rem;
+    }
+    #l-r-column{
+        margin-top: 5%;
+    }
+}
+p{
+    font-size: 105%;
+}
+#vertical_line{
+    padding-left: 7%;
+}
+html, body {
+    height: 100%;
+  }
+body{
+    position: relative;
+    min-height: 100%;
+    background-color: #f1e7d0;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    overflow-x: hidden;
+}
+.navbar-dark .navbar-nav .nav-link.active,
+.navbar-dark .navbar-nav .nav-link:hover{
+    color: #d4a43d !important;
+    font-size: 18px;
+}
+.links{
+    color:#000000;
+    font-size: 3rem;
+    text-decoration: none;
+}
+.links:hover{
+    color: #d4a43d;
+    text-decoration: underline;
+    text-underline-position: under;
+}
+.footer{
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+  }
+ .footer-home{
+    margin-top: 7%;
+    width:100%;
+ }
+ .error{
+     margin-top: 3%;
+     color: red;
+     text-align: center;
+ }
+ .success{
+    margin-top: 3%;
+    color: rgb(30, 207, 30);
+    text-align: center;
+}
+

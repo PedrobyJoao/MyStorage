@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Login
+{% endblock %}
+
+{% block main %}
+    <main class="container-md">
+        <div class="row text-center">
+            <h1>Login</h1>
+        </div><br>
+        <form class="row login-forms" action="/login" method="post">
+            <div class="mb-3">
+              <label for="username" class="form-label" autofocus>Username</label>
+              <input type="username " class="form-control" name="username" id="username" aria-describedby="emailHelp">
+              <div id="emailHelp" class="form-text">We'll never share your username with anyone else.</div>
+            </div>
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <input type="password" class="form-control" name="password" id="password">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+    </main>
+    {% if  success == True %}
+    <h5 class="success">{{ success_message }}</h5>
+    {% endif %}
+    {% if error == True %}
+            <h5 class="error">{{ error_message }}</h5>
+    {% endif %}
+{% endblock %}
+
+{% block footer %}
+<footer class="bg-light text-center text-lg-start footer">
+  <!-- Copyright -->
+  <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+    © 2022 Copyright:
+    <a class="text-dark" href="https://github.com/PedrobyJoao">João Pedro Castro</a>
+  </div>
+  <!-- Copyright -->
+</footer>
+  {% endblock %}
