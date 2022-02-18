@@ -16,4 +16,4 @@ class storage(db.Model):
     quantity = db.Column(db.Integer(), nullable=False)
     owner = db.Column(db.Integer(), db.ForeignKey('user.id'))
     def __repr__(self):
-        return f'storage {self.item}'
+        return f'storage {self.id, self.item, self.quantity, self.owner}'

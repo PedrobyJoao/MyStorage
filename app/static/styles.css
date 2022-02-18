@@ -126,4 +126,8 @@ body{
     color: rgb(30, 207, 30);
     text-align: center;
 }
+.tablepadding{
+    padding-left: 15% !important;
+  }
+  
 

@@ -30,7 +30,10 @@
                     <li class="nav-item">
                         <a class="nav-link" href="home#contact">Support</a>
                     </li>
-                    {% if current_user.is_authenticated %}
+                    {% if session["user_id"] %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="storage">Storage</a>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ url_for('logout_page') }}">Logout</a>
                         </li>

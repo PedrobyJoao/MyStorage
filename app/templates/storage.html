@@ -5,5 +5,35 @@ Storage
 {% endblock %}
 
 {% block main %}
-      
+    <main class="container-md">
+        <div class="row text-center">
+            <h1>Storage</h1>
+        </div><br>
+        <div class="row">
+            <table class="table table-light table-striped table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Item</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Add/Remove</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in user_storage %}
+                        <tr>
+                            <th scope="row">{{ item.item }}</th>
+                            <td>{{ item.quantity }}</td>
+                            <td>
+                                <form action="/storage" method="post">
+                                    <input type="number" id="quantity_action" name="quantity_action" placeholder="Quantity">
+                                    <button type="button" class="btn btn-success">Add</button>
+                                    <button type="button" class="btn btn-danger">Remove</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </main>
 {% endblock %}
