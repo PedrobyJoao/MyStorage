@@ -1,12 +1,17 @@
 from app import app, db
-from flask import redirect, render_template, request, session
-from app.models import user, storage
+from flask import redirect, render_template, request, session, url_for
+from app.models import user, storage, history
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask_session import Session
+from datetime import datetime
+import pytz
 
 from app.helpers import login_required
 
+# Defining Brazil timezone for later functions
+brazil_hour = pytz.timezone('Brazil/East') 
 
+# Routes:
 @app.route('/')
 @app.route('/home')
 def home_page():
@@ -101,11 +106,64 @@ def storage_page():
     
     # When user add/remove items
     if request.method == "POST":
-        return render_template('storage.html')
+        # The user did ADD or REMOVE
+        if request.form["modal_button"] == 'add':
+            print("add!")
+        elif request.form["modal_button"] == 'remove':
+            print("remove!")
+        return redirect('storage')
+
+    # Getting Username
+    user_id = user.query.filter_by(id=session.get("user_id")).first().id
+    username = user.query.all()[user_id - 1].username
+    # Showing user's owned items
+    user_storage = storage.query.filter_by(owner=session.get("user_id")).all()
+    # Checking if the user have any items at all:
+    if not user_storage:
+        empty = True
+        return render_template('storage.html', empty=empty, username=username)
     else:
-        # Showing user's owned items
-        user_storage = storage.query.filter_by(owner=session.get("user_id")).all()
-        return render_template('storage.html', user_storage=user_storage)
+        empty = False
+        return render_template('storage.html', user_storage=user_storage, username=username, empty=empty)
+
+@app.route('/newitem', methods=["GET", "POST"])
+@login_required
+def newitem_page():
+    """Adding a new item"""
+    if request.method == 'POST':
+        # Getting user's id
+        user_id = user.query.filter_by(id=session.get("user_id")).first().id
+        # Gettting live hours
+        time = datetime.now(brazil_hour)
+        formated_time = time.strftime("%d/%m/%y - %H:%M")
+        # Adding item to 'item' table and 'history' table
+        new_item = storage(owner=user_id, item=request.form.get('new_item'), quantity=request.form.get('modalnew_quantity'))
+        new_item_history = history(owner=user_id, item=request.form.get('new_item'), type='add', quantity=request.form.get('modalnew_quantity'),
+                                                    price=request.form.get('modalnew_price'), time=formated_time)
+        db.session.add(new_item)   
+        db.session.add(new_item_history)   
+        db.session.commit()
+        return redirect(url_for('storage_page'))
+    else:
+        return redirect(url_for('storage_page'))
+
+@app.route('/history')
+@login_required
+def history_page():
+    """Last updates of user"""
+
+    # Getting Username
+    user_id = user.query.filter_by(id=session.get("user_id")).first().id
+    username = user.query.all()[user_id - 1].username
+    # Getting User's history
+    user_history = history.query.filter_by(owner=session.get("user_id")).all()
+    # Checking if the user has any items
+    if not user_history:
+        empty = True
+        return render_template('storage.html', empty=empty, username=username)
+    else:
+        empty = False
+        return render_template("history.html", user_history=user_history, empty=empty, username=username)
 
 @app.route('/logout')
 def logout_page():

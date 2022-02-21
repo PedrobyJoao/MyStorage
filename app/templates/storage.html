@@ -9,31 +9,52 @@ Storage
         <div class="row text-center">
             <h1>Storage</h1>
         </div><br>
-        <div class="row">
-            <table class="table table-light table-striped table-hover">
+        <div class="row table-responsive">
+            <table class="table table-light table-striped table-hover caption-top">
+                <caption>Welcome '{{ username }}'!</caption>
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col">Item</th>
-                        <th scope="col">Quantity</th>
-                        <th scope="col">Add/Remove</th>
+                        <th style="text-align: center;" class="td-secondchild" scope="col">Quantity</th>
+                        <th class="td-lastchild" scope="col">Add/Remove</th>
                     </tr>
                 </thead>
                 <tbody>
+                    {% if empty == False %}
                     {% for item in user_storage %}
+                    {% include 'includes/modal_storage.html' %}
                         <tr>
                             <th scope="row">{{ item.item }}</th>
-                            <td>{{ item.quantity }}</td>
-                            <td>
-                                <form action="/storage" method="post">
-                                    <input type="number" id="quantity_action" name="quantity_action" placeholder="Quantity">
-                                    <button type="button" class="btn btn-success">Add</button>
-                                    <button type="button" class="btn btn-danger">Remove</button>
-                                </form>
+                            <td class="td-secondchild" style="text-align: center;">{{ item.quantity }}</td>
+                            <td class="td-lastchild">
+                                    <div class="input-group input-group-sm mb-3">
+                                        <input type="number" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" id="quantity_action" name="quantity_action" placeholder="Quantity">
+                                        <span class="input-group-text">$</span>
+                                        <input type="number" aria-label="Dollar amount (with dot and two decimal places)" id="price_action" name="price_action" placeholder="Price">
+                                        <input type="submit" class="btn btn-success" value="add" id="add" onclick="modal_button('add')">
+                                        <input type="submit" class="btn btn-danger" value="remove" id="remove" onclick="modal_button('remove')">
+                                    </div>
                             </td>
                         </tr>
                     {% endfor %}
+                    {% else %}
+                    <tr>
+                        <th scope="row"></th>
+                        <td class="td-secondchild" style="text-align: center;">No items</td>
+                        <td></td>
+                    </tr>
+                    {% endif %}
                 </tbody>
             </table>
+        </div>
+        <div class="row align-items-start">
+            {% include 'includes/modal_newitem.html' %}
+            <label for="">Add a new item</label>
+            <i class="bi bi-plus-square-fill"></i>
+            <input type="text" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" id="item_action" name="item_action" placeholder="Item">
+            <input type="number" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" id="new_quantity" name="new_quantity" placeholder="Quantity">
+            <input type="number" aria-label="Dollar amount (with dot and two decimal places)" id="new_price" name="new_price" placeholder="Price">
+            <input type="submit" class="btn btn-success" value="add" id="new_add" onclick="newitem_button()">
         </div>
     </main>
 {% endblock %}

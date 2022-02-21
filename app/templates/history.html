@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}
+History
+{% endblock %}
+
+{% block main %}
+    <main class="container-md">
+        <div class="row text-center">
+            <h1>History</h1>
+        </div><br>
+        <div class="row table-responsive">
+            <table class="table table-light table-striped table-hover caption-top">
+                <caption>Welcome '{{ username }}'!</caption>
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Item</th>
+                        <th scope="col">Type</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if empty == False %}
+                    {% for row in user_history %}
+                        <tr>
+                            <th scope="row">{{ row.item }}</th>
+                            <td style="text-transform:uppercase;">{{ row.type }}</td>
+                            <td>{{ row.quantity }}</td>
+                            <td>{{ row.price }}</td>
+                            <td>{{ row.time }}</td>
+                        </tr>
+                    {% endfor %}
+                    {% else %}
+                    <tr>
+                        <th scope="row"></th>
+                        <td class="td-secondchild" style="text-align: center;">No items</td>
+                        <td></td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </main>
+{% endblock %}

@@ -126,8 +126,12 @@ body{
     color: rgb(30, 207, 30);
     text-align: center;
 }
-.tablepadding{
+.td-lastchild{
+    padding-left: 30% !important;
+}
+.td-secondchild{
     padding-left: 15% !important;
-  }
+}
+  
   
 

@@ -1,0 +1,47 @@
+<!--- Add/Remove snipet when adding/removing through the TABLE-->
+<script>         
+  function modal_button(value){
+    if (document.getElementById('quantity_action').value == '' || document.getElementById('price_action').value == ''){
+        alert("You can't leave blank inputs!");
+    }
+    else{
+      let myModal = new bootstrap.Modal(document.getElementById('modal-storage'), {});
+      myModal.show();
+      document.getElementById('modal_button').value = value;
+      if(value == 'add'){
+        document.getElementById('add-removewrite').innerHTML = "add";
+      }
+      else if(value == 'remove'){
+        document.getElementById('add-removewrite').innerHTML = "remove";
+      }
+    }
+  }
+</script>
+<div class="modal fade" id="modal-storage" tabindex="-1" aria-labelledby="modal-storageLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modal-storageLabel">Confirm</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="/storage" method="POST">
+            <h5 class="text-center">
+              Are you sure you want to 
+              <span id="add-removewrite" style="text-transform:uppercase;"></span> 
+              '{{ item.quantity }}' of '{{ item.item }}'?
+            </h5><br>
+            <h6>By clicking Confirm you submit your action</h6>
+            <div class="modal-footer">
+              <input type="hidden" id="modal_item" name="modal_item" value="{{ item.item }}">
+              <input type="hidden" id="modal_quantity" name="modal_quantity" value="{{ item.quantity }}">
+              <input type="hidden" id="modal_button" name="modal_button">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button class="btn btn-primary">Confirm</button>
+            </div>
+        </form>
+      </div>  
+    </div>
+  </div>
+</div>
+
