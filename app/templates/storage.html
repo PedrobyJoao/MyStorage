@@ -28,11 +28,15 @@ Storage
                             <td class="td-secondchild" style="text-align: center;">{{ item.quantity }}</td>
                             <td class="td-lastchild">
                                     <div class="input-group input-group-sm mb-3">
-                                        <input type="number" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" id="quantity_action" name="quantity_action" placeholder="Quantity">
+                                        <input type="hidden" name="item_{{ item.item }}" id="item_{{ item.item }}" value="{{ item.item }}">
+                                        <input type="number" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" id="quantity_{{ item.item }}" 
+                                                    name="quantity_{{ item.item }}" placeholder="Quantity">
                                         <span class="input-group-text">$</span>
-                                        <input type="number" aria-label="Dollar amount (with dot and two decimal places)" id="price_action" name="price_action" placeholder="Price">
-                                        <input type="submit" class="btn btn-success" value="add" id="add" onclick="modal_button('add')">
-                                        <input type="submit" class="btn btn-danger" value="remove" id="remove" onclick="modal_button('remove')">
+                                        <input type="number" aria-label="Dollar amount (with dot and two decimal places)" id="price_{{ item.item }}" name="price_{{ item.item }}" placeholder="Price">
+                                        <input type="submit" class="btn btn-success" data-toggle="modal" data-target="#modal-storage" value="add" id="add_{{ item.item }}" 
+                                                    onclick="modal_button('add', 'item_{{ item.item }}', 'quantity_{{ item.item }}', 'price_{{ item.item }}')">
+                                        <input type="submit" class="btn btn-danger" data-toggle="modal" data-target="#modal-storage" value="remove" id="remove_{{ item.item }}" 
+                                                    onclick="modal_button('remove', 'item_{{ item.item }}', 'quantity_{{ item.item }}', 'price_{{ item.item }}')">
                                     </div>
                             </td>
                         </tr>
@@ -49,12 +53,14 @@ Storage
         </div>
         <div class="row align-items-start">
             {% include 'includes/modal_newitem.html' %}
-            <label for="">Add a new item</label>
-            <i class="bi bi-plus-square-fill"></i>
-            <input type="text" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" id="item_action" name="item_action" placeholder="Item">
-            <input type="number" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" id="new_quantity" name="new_quantity" placeholder="Quantity">
-            <input type="number" aria-label="Dollar amount (with dot and two decimal places)" id="new_price" name="new_price" placeholder="Price">
-            <input type="submit" class="btn btn-success" value="add" id="new_add" onclick="newitem_button()">
+            <div>
+                <label for="">Add a new item</label>
+                <i class="bi bi-plus-square-fill"></i>
+                <input type="text" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" id="item_action" name="item_action" placeholder="Item">
+                <input type="number" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" id="new_quantity" name="new_quantity" placeholder="Quantity">
+                <input type="number" aria-label="Dollar amount (with dot and two decimal places)" id="new_price" name="new_price" placeholder="Price">
+                <input type="submit" class="bi bi-plus-square-fill" value="Add new item" id="new_add" onclick="newitem_button()">
+            </div>
         </div>
     </main>
 {% endblock %}

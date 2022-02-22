@@ -3,10 +3,11 @@ from flask import redirect, render_template, request, session, url_for
 from app.models import user, storage, history
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask_session import Session
+from sqlalchemy import desc
 from datetime import datetime
 import pytz
 
-from app.helpers import login_required
+from app.helpers import login_required, is_integer
 
 # Defining Brazil timezone for later functions
 brazil_hour = pytz.timezone('Brazil/East') 
@@ -104,17 +105,54 @@ def register_page():
 def storage_page():
     """""Storage interface"""
     
+    # Getting user's ID
+    user_id = session.get("user_id")
     # When user add/remove items
     if request.method == "POST":
-        # The user did ADD or REMOVE
+        # Getting item and quantity input
+        item = request.form.get("modal_item")
+        quantity = int(request.form.get("modal_quantity"))
+        price = request.form.get("modal_price")
+        # If the user let price blank, price will be 0
+        if price == '':
+            price = 0;
+        # Checking if quantity is integer
+        if is_integer(quantity) == False:
+            message = "Quantity must be integer!"
+            return render_template("error.html", message=message)
+        # Getting how many items the user has before the update
+        old_quantity = storage.query.filter_by(owner=user_id, item=item).first().quantity
+
+        # The user added/removed?
         if request.form["modal_button"] == 'add':
-            print("add!")
+            new_quantity = quantity + old_quantity
         elif request.form["modal_button"] == 'remove':
-            print("remove!")
-        return redirect('storage')
+            new_quantity = old_quantity - quantity
+            # Checking if the user has sufficient quantity to remove
+            if (quantity > old_quantity):
+                message = "You don't have sufficient quantity to remove!"
+                return render_template("error.html", message=message)
+
+        # Gettting live hours
+        time = datetime.now(brazil_hour)
+        formated_time = time.strftime("%d/%m/%y - %H:%M")
+
+        # Creating an object to add data to storage table
+        add_itemstorage = storage.query.filter_by(owner=user_id, item=item).first()
+        # If the new quantity is equal 0, so we must take out the item row from storage page
+        if new_quantity == 0:
+            storage.query.filter_by(owner=user_id, item=item).delete()
+        else:
+            add_itemstorage.quantity = new_quantity
+        # Adding data to history table (no need to create a object, we are not updating a row, instead we are adding it)
+        add_itemhistory = history(item=item, type=request.form["modal_button"], quantity=quantity,
+                                                    price=price, time=formated_time, owner=user_id) 
+        db.session.add(add_itemhistory)   
+        db.session.commit()
+
+    """Showing Storage"""
 
     # Getting Username
-    user_id = user.query.filter_by(id=session.get("user_id")).first().id
     username = user.query.all()[user_id - 1].username
     # Showing user's owned items
     user_storage = storage.query.filter_by(owner=session.get("user_id")).all()
@@ -132,7 +170,7 @@ def newitem_page():
     """Adding a new item"""
     if request.method == 'POST':
         # Getting user's id
-        user_id = user.query.filter_by(id=session.get("user_id")).first().id
+        user_id = session.get("user_id")
         # Gettting live hours
         time = datetime.now(brazil_hour)
         formated_time = time.strftime("%d/%m/%y - %H:%M")
@@ -153,10 +191,10 @@ def history_page():
     """Last updates of user"""
 
     # Getting Username
-    user_id = user.query.filter_by(id=session.get("user_id")).first().id
+    user_id = session.get("user_id")
     username = user.query.all()[user_id - 1].username
     # Getting User's history
-    user_history = history.query.filter_by(owner=session.get("user_id")).all()
+    user_history = history.query.filter_by(owner=session.get("user_id")).order_by(desc(history.time)).all()
     # Checking if the user has any items
     if not user_history:
         empty = True
