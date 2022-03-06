@@ -26,7 +26,16 @@ class history(db.Model):
     type = db.Column(db.String(length=7), nullable=False)
     quantity = db.Column(db.Integer(), nullable=False)
     price = db.Column(db.Integer())
-    time = db.Column(db.String(length=60), nullable=False)
+    date = db.Column(db.String(length=12), nullable=False)
+    time = db.Column(db.String(length=5), nullable=False)
     owner = db.Column(db.Integer(), db.ForeignKey('user.id'))
     def __repr__(self):
         return f'history {self.id, self.item, self.type, self.quantity, self.price, self.time, self.owner}'
+
+# Creating table for contact form
+class contact(db.Model):
+    id = db.Column(db.Integer(), primary_key=True)
+    email = db.Column(db.String(length=400), nullable=False)
+    message = db.Column(db.Integer(), nullable=False)
+    def __repr__(self):
+        return f'contact {self.id, self.email, self.message}'
