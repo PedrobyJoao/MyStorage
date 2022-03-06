@@ -3,14 +3,17 @@ from flask import redirect, render_template, request, session, url_for
 from app.models import user, storage, history
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask_session import Session
-from sqlalchemy import desc
+from sqlalchemy import asc, desc
 from datetime import datetime
 import pytz
 
-from app.helpers import login_required, is_integer
+from app.helpers import login_required, is_integer, usd
 
 # Defining Brazil timezone for later functions
 brazil_hour = pytz.timezone('Brazil/East') 
+
+# Custom USD interface
+app.jinja_env.filters["usd"] = usd
 
 # Routes:
 @app.route('/')
@@ -135,7 +138,8 @@ def storage_page():
 
         # Gettting live hours
         time = datetime.now(brazil_hour)
-        formated_time = time.strftime("%d/%m/%y - %H:%M")
+        formated_date = time.strftime("%d/%m/%y")
+        formated_time = time.strftime("%H:%M")
 
         # Creating an object to add data to storage table
         add_itemstorage = storage.query.filter_by(owner=user_id, item=item).first()
@@ -146,7 +150,7 @@ def storage_page():
             add_itemstorage.quantity = new_quantity
         # Adding data to history table (no need to create a object, we are not updating a row, instead we are adding it)
         add_itemhistory = history(item=item, type=request.form["modal_button"], quantity=quantity,
-                                                    price=price, time=formated_time, owner=user_id) 
+                                                    price=price, date=formated_date, time=formated_time, owner=user_id) 
         db.session.add(add_itemhistory)   
         db.session.commit()
 
@@ -171,13 +175,14 @@ def newitem_page():
     if request.method == 'POST':
         # Getting user's id
         user_id = session.get("user_id")
-        # Gettting live hours
+        # Gettting live date and hours
         time = datetime.now(brazil_hour)
-        formated_time = time.strftime("%d/%m/%y - %H:%M")
+        formated_date = time.strftime("%d/%m/%y")
+        formated_time = time.strftime("%H:%M")
         # Adding item to 'item' table and 'history' table
         new_item = storage(owner=user_id, item=request.form.get('new_item'), quantity=request.form.get('modalnew_quantity'))
         new_item_history = history(owner=user_id, item=request.form.get('new_item'), type='add', quantity=request.form.get('modalnew_quantity'),
-                                                    price=request.form.get('modalnew_price'), time=formated_time)
+                                                    price=request.form.get('modalnew_price'), date=formated_date, time=formated_time)
         db.session.add(new_item)   
         db.session.add(new_item_history)   
         db.session.commit()
@@ -194,7 +199,7 @@ def history_page():
     user_id = session.get("user_id")
     username = user.query.all()[user_id - 1].username
     # Getting User's history
-    user_history = history.query.filter_by(owner=session.get("user_id")).order_by(desc(history.time)).all()
+    user_history = history.query.filter_by(owner=session.get("user_id")).order_by(desc(history.date), desc(history.time)).all()
     # Checking if the user has any items
     if not user_history:
         empty = True
