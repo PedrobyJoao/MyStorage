@@ -1,20 +1,3 @@
-<!--- Adding a NEW item -->
-<script>         
-function newitem_button(){
-    if (document.getElementById('item_action').value == '' || document.getElementById('new_quantity').value == '' || document.getElementById('new_price').value == ''){
-        alert("You can't leave blank inputs!");
-    }
-    else{
-        let myModal = new bootstrap.Modal(document.getElementById('modal-newitem'), {});
-        myModal.show();
-        document.getElementById('new_item').value = document.getElementById('item_action').value;
-        document.getElementById('modalnew_quantity').value = document.getElementById('new_quantity').value;
-        document.getElementById('modalnew_price').value = document.getElementById('new_price').value;
-        document.getElementById('span_newitem').innerHTML = document.getElementById('new_item').value;
-        document.getElementById('span_newquantity').innerHTML = document.getElementById('modalnew_quantity').value;
-    }
-}
-</script>
 <div class="modal fade" id="modal-newitem" tabindex="-1" aria-labelledby="modal-newitemLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -24,7 +7,7 @@ function newitem_button(){
         </div>
         <div class="modal-body">
             <form action="{{ url_for('newitem_page') }}" method="POST">
-                <h5 class="text-center">Are you sure you want to ADD '<span id="span_newquantity"></span>' of '<span id="span_newitem"></span>'?</h5><br>
+                <h5 class="text-center">Are you sure you want to ADD '<span id="span_newquantity"></span>' of '<span id="span_newitem"></span>' for '$<span id="span_newmodalprice"></span>'?</h5><br>
                 <h6>By clicking Confirm you submit your action</h6>
                 <div class="modal-footer">
                 <input type="hidden" id="new_item" name="new_item">

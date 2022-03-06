@@ -1,33 +1,3 @@
-<!--- Add/Remove snipet when adding/removing through the TABLE-->
-<script>         
-  function modal_button(value, item, quantity, price){
-      // If the user let blank inputs
-      if (document.getElementById(quantity).value == '' || document.getElementById(price).value == ''){
-          alert("You can't leave blank inputs!");
-      }
-      else{
-          // Open modal
-          let myModal = new bootstrap.Modal(document.getElementById('modal-storage'), {});
-          myModal.show();
-          // Value ADD or REMOVE that will send to routes.py
-          document.getElementById('modal_button').value = value;
-          // Writing process in <span>
-          if(value == 'add'){
-            document.getElementById('add-removewrite').innerHTML = "add";
-          }
-          else if(value == 'remove'){
-            document.getElementById('add-removewrite').innerHTML = "remove";
-          }
-          // Giving values (item, qtd, price) which will be send to routes
-          document.getElementById('modal_quantity').value = document.getElementById(quantity).value;
-          document.getElementById('modal_price').value = document.getElementById(price).value;
-          document.getElementById('modal_item').value = document.getElementById(item).value;
-          // Writing process in <span>
-          document.getElementById('span_modalqtd').innerHTML = document.getElementById(quantity).value;
-          document.getElementById('span_modalitem').innerHTML = document.getElementById(item).value;
-      }
-  }
-</script>
 <div class="modal fade" id="modal-storage" tabindex="-1" aria-labelledby="modal-storageLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -40,7 +10,7 @@
             <h5 class="text-center">
               Are you sure you want to 
               <span id="add-removewrite" style="text-transform:uppercase;"></span> 
-              '<span id="span_modalqtd"></span>' of '<span id="span_modalitem"></span>'?
+              '<span id="span_modalqtd"></span>' of '<span id="span_modalitem"></span>' for '$<span id="span_modalprice"></span>'?
             </h5><br>
             <h6>By clicking Confirm you submit your action</h6>
             <div class="modal-footer">
