@@ -22,3 +22,7 @@ def is_integer(n):
         return False
     else:
         return float(n).is_integer()
+
+def usd(value):
+    """Format value as USD."""
+    return f"${value:,.2f}"
