@@ -28,8 +28,8 @@ History
                             <th scope="row">{{ row.item }}</th>
                             <td style="text-transform:uppercase;">{{ row.type }}</td>
                             <td>{{ row.quantity }}</td>
-                            <td>{{ row.price }}</td>
-                            <td>{{ row.time }}</td>
+                            <td>{{ row.price | usd }}</td>
+                            <td>{{ row.date }} - {{ row.time }}</td>
                         </tr>
                     {% endfor %}
                     {% else %}
