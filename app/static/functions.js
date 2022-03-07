@@ -1,8 +1,29 @@
+// Function for the "NEW Item (Modal Action)"
+function checking_hasitem(){
+
+    var table_rows = document.getElementById('storage_table');
+    //gets rows of table
+    var rowLength = table_rows.rows.length;
+
+    //loops through rows    
+    for (i = 0; i < rowLength; i++){
+
+      //gets cell[item] of current row  
+       var item = table_rows.rows[i].cells[0].innerHTML;
+       if (item == String(document.getElementById('item_action').value)){
+            return true;
+       }
+    }
+}
+
 // Adding a NEW item (Modal Action)
 function newitem_button(){
     // Checking if input is not blank
     if (document.getElementById('item_action').value == '' || document.getElementById('new_quantity').value == '' || document.getElementById('new_price').value == ''){
         alert("You can't leave blank inputs!");
+    }
+    else if(checking_hasitem() == true){
+        alert("You already have the item!")
     }
     else{
         // Opening modal

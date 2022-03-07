@@ -10,7 +10,7 @@ Storage
             <h1>Storage</h1>
         </div><br>
         <div class="row table-responsive">
-            <table class="table table-light table-striped table-hover caption-top">
+            <table class="table table-light table-striped table-hover caption-top" id="storage_table">
                 <caption>Welcome '{{ username }}'!</caption>
                 <thead class="thead-dark">
                     <tr>
@@ -24,7 +24,7 @@ Storage
                     {% for item in user_storage %}
                     {% include 'includes/modal_storage.html' %}
                         <tr>
-                            <th scope="row">{{ item.item }}</th>
+                            <th scope="row" id="item_Row">{{ item.item }}</th>
                             <td class="td-secondchild" style="text-align: center;">{{ item.quantity }}</td>
                             <td class="td-lastchild">
                                     <div class="input-group input-group-sm mb-3">
@@ -62,5 +62,10 @@ Storage
                 <input type="submit" class="bi bi-plus-square-fill" value="Add new item" id="new_add" onclick="newitem_button()">
             </div>
         </div>
+        {% if error == True %}
+            <div class="row alert alert-danger my-3" role="alert">
+                {{ error_message }}
+            </div>
+        {% endif %}
     </main>
 {% endblock %}
