@@ -44,7 +44,7 @@ def login_page():
             # User exist?
             if user.query.filter_by(username=username).first()  == None:
                 error = True
-                error_message = "Username doesn't exist"
+                error_message = "Username doesn't exist!"
                 return render_template("login.html", error=error, error_message=error_message)
             else:
                 # User's id
@@ -52,7 +52,7 @@ def login_page():
                 # Checking password
                 if not check_password_hash(user.query.all()[user_id - 1].password_hash, password):
                     error = True
-                    error_message = "Wrong Password"
+                    error_message = "Wrong Password!"
                     return render_template("login.html", error=error, error_message=error_message)
                 else:
                     # User is valid -> Login the user
@@ -83,13 +83,13 @@ def register_page():
         # If passwords are not the same
         if password != confirmation:
             error = True
-            error_message = "Passwords are not equal"
+            error_message = "Passwords are not equal!"
             return render_template("register.html", error=error, error_message=error_message)
         else:
             # Checking if the username already exists in the database
             if user.query.filter_by(username=username).first()  != None:
                 error = True
-                error_message = "Username already exists"
+                error_message = "Username already exists!"
                 return render_template("register.html", error=error, error_message=error_message)
             else:
                 # Updating database with new user
@@ -97,9 +97,8 @@ def register_page():
                 new_user = user(username=username, password_hash=hash)
                 db.session.add(new_user)   
                 db.session.commit()
-                success_message = 'Your account was created successfully'
                 success = True
-                return render_template("login.html", success_message=success_message, success=success)
+                return render_template("login.html", success=success)
     else:
         return render_template('register.html')
 

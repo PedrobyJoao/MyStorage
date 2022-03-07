@@ -19,15 +19,19 @@ Login
               <label for="password" class="form-label">Password</label>
               <input type="password" class="form-control" name="password" id="password">
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary">Enter</button>
           </form>
+          {% if  success == True %}
+          <div class="row alert alert-success login-forms my-3" role="alert">
+            Your account was created successfully!
+          </div>
+          {% endif %}
+          {% if error == True %}
+          <div class="row alert alert-danger login-forms my-3" role="alert">
+            {{ error_message }}
+          </div>
+          {% endif %}
     </main>
-    {% if  success == True %}
-    <h5 class="success">{{ success_message }}</h5>
-    {% endif %}
-    {% if error == True %}
-            <h5 class="error">{{ error_message }}</h5>
-    {% endif %}
 {% endblock %}
 
 {% block footer %}
