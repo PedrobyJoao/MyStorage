@@ -28,9 +28,10 @@ def login_page():
     session.clear()
 
     if request.method == "POST":
-        # Getting Username, password and confirmation. And validate:
+        # Initiating error booleans
         error = False # When error found, error == True
         success = False
+        # Getting Username and passwordAnd validate:
         username = request.form.get("username")
         password = request.form.get("password")
 
@@ -55,6 +56,11 @@ def login_page():
                     error_message = "Wrong Password!"
                     return render_template("login.html", error=error, error_message=error_message)
                 else:
+                    # Checking captcha
+                    if not request.form.get("captcha"):
+                        error = True
+                        error_message = "Robots are not allowed here for now!"
+                        return render_template("login.html", error=error, error_message=error_message)
                     # User is valid -> Login the user
                     # Remember which user has logged in
                     session["user_id"] = user_id
@@ -67,9 +73,10 @@ def register_page():
     """"Register"""
 
     if request.method == "POST":
-        # Getting Username, password and confirmation. And validate:
+        # Initiating error booleans
         error = False # When error found, error == True
         success = False
+        # Getting Username, password and confirmation. And validate:
         username = request.form.get("username")
         password = request.form.get("password")
         confirmation = request.form.get("confirmation")
@@ -92,6 +99,11 @@ def register_page():
                 error_message = "Username already exists!"
                 return render_template("register.html", error=error, error_message=error_message)
             else:
+                # Checking captcha
+                if not request.form.get("captcha_register"):
+                    error = True
+                    error_message = "Robots are not allowed here for now!"
+                    return render_template("register.html", error=error, error_message=error_message)
                 # Updating database with new user
                 hash = generate_password_hash(password)
                 new_user = user(username=username, password_hash=hash)
