@@ -25,7 +25,7 @@ History
                     {% if empty == False %}
                     {% for row in user_history %}
                         <tr>
-                            <th scope="row">{{ row.item }}</th>
+                            <th scope="row" style="text-transform: capitalize;">{{ row.item }}</th>
                             <td style="text-transform:uppercase;">{{ row.type }}</td>
                             <td>{{ row.quantity }}</td>
                             <td>{{ row.price | usd }}</td>

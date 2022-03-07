@@ -24,7 +24,7 @@ Storage
                     {% for item in user_storage %}
                     {% include 'includes/modal_storage.html' %}
                         <tr>
-                            <th scope="row" id="item_Row">{{ item.item }}</th>
+                            <th scope="row" id="item_Row" style="text-transform: capitalize;">{{ item.item }}</th>
                             <td class="td-secondchild" style="text-align: center;">{{ item.quantity }}</td>
                             <td class="td-lastchild">
                                     <div class="input-group input-group-sm mb-3">
