@@ -1,28 +1,26 @@
 // Function for the "NEW Item (Modal Action)"
-function checking_hasitem(){
-
-    var table_rows = document.getElementById('storage_table');
-    //gets rows of table
-    var rowLength = table_rows.rows.length;
-
-    //loops through rows    
-    for (i = 0; i < rowLength; i++){
-
-      //gets cell[item] of current row  
-       var item = table_rows.rows[i].cells[0].innerHTML;
-       if (item == String(document.getElementById('item_action').value)){
+function checking_hasitem(data){
+    // going through item names
+    for (let i = 0; i < data.length; i++){
+        // Getting new item name
+        var new_item = String(document.getElementById('item_action').value);
+        new_item = new_item.toLowerCase();
+        data[i] = data[i].toLowerCase();
+        // Seeing if the user already have the item in his storage
+        if (data[i].localeCompare(new_item) == 0){
             return true;
-       }
+        }
     }
 }
 
+
 // Adding a NEW item (Modal Action)
-function newitem_button(){
+function newitem_button(data){
     // Checking if input is not blank
     if (document.getElementById('item_action').value == '' || document.getElementById('new_quantity').value == '' || document.getElementById('new_price').value == ''){
         alert("You can't leave blank inputs!");
     }
-    else if(checking_hasitem() == true){
+    else if(checking_hasitem(data) == true){
         alert("You already have the item!")
     }
     else{

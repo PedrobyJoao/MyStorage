@@ -24,7 +24,11 @@ Storage
                     {% for item in user_storage %}
                     {% include 'includes/modal_storage.html' %}
                         <tr>
-                            <th scope="row" id="item_Row" style="text-transform: capitalize;">{{ item.item }}</th>
+                            <th scope="row" id="item_Row" style="text-transform: capitalize;" value="teste">
+                                <div class="d-inline-block" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Average price: {{ item_avgs[item.item.lower()] }}" value="teste">
+                                    <a href="#" title="Tooltip" style="text-decoration: none; color: black" value="teste">{{ item.item }}</a>
+                                </div>
+                            </th>
                             <td class="td-secondchild" style="text-align: center;">{{ item.quantity }}</td>
                             <td class="td-lastchild">
                                     <div class="input-group input-group-sm mb-3">
@@ -59,7 +63,7 @@ Storage
                 <input type="text" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" id="item_action" name="item_action" placeholder="Item">
                 <input type="number" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" id="new_quantity" name="new_quantity" placeholder="Quantity">
                 <input type="number" aria-label="Dollar amount (with dot and two decimal places)" id="new_price" name="new_price" placeholder="Price">
-                <input type="submit" class="bi bi-plus-square-fill" value="Add new item" id="new_add" onclick="newitem_button()">
+                <input type="submit" class="bi bi-plus-square-fill" value="Add new item" id="new_add" onclick='newitem_button({{ storage_items | safe }})'>
             </div>
         </div>
         {% if error == True %}
