@@ -6,6 +6,7 @@ from flask_session import Session
 from sqlalchemy import asc, desc
 from datetime import datetime
 import pytz
+import json
 
 from app.helpers import login_required, is_integer, usd
 
@@ -102,7 +103,12 @@ def register_page():
                 # Checking captcha
                 if not request.form.get("captcha_register"):
                     error = True
-                    error_message = "Robots are not allowed here for now!"
+                    error_message = "Robots are not allowed here (for now)!"
+                    return render_template("register.html", error=error, error_message=error_message)
+                # Checking if the password has more than 6 chars
+                if len(password) < 6:
+                    error = True
+                    error_message = "Your password must be longer than 6 characters!"
                     return render_template("register.html", error=error, error_message=error_message)
                 # Updating database with new user
                 hash = generate_password_hash(password)
@@ -121,6 +127,7 @@ def storage_page():
     
     # Getting user's ID
     user_id = session.get("user_id")
+
     # When user add/remove items
     if request.method == "POST":
         # Getting item and quantity input
@@ -170,29 +177,53 @@ def storage_page():
     # Getting Username
     username = user.query.all()[user_id - 1].username
     # Showing user's owned items
-    user_storage = storage.query.filter_by(owner=session.get("user_id")).all()
+    user_storage = storage.query.filter_by(owner=user_id).all()
+
+    # Dictionary to store item averages
+    item_avgs = {}
+    storage_items = []
+    # Calculating item's average price
+    for item in user_storage:
+        item_tobeavg = history.query.filter_by(owner=user_id, item=item.item).all()
+        denominator = 0
+        numerator = 0
+        for item_his in item_tobeavg:
+            # Getting numerator and denominator for weighted average
+            numerator += (item_his.price * item_his.quantity)
+            denominator += item_his.quantity
+        # Getting the average for the specific item
+        average = numerator / denominator
+        average = float("{:.2f}".format(average))
+        item_avgs[item.item.lower()] = average
+        storage_items.append(item.item)
+    
+    # Getting just the items
+      
     # Checking if the user have any items at all:
     if not user_storage:
         empty = True
         return render_template('storage.html', empty=empty, username=username)
     else:
         empty = False
-        return render_template('storage.html', user_storage=user_storage, username=username, empty=empty)
+        return render_template('storage.html', user_storage=user_storage, username=username, empty=empty, 
+                                                item_avgs=item_avgs, storage_items=json.dumps(storage_items))
 
 @app.route('/newitem', methods=["GET", "POST"])
 @login_required
 def newitem_page():
     """Adding a new item"""
     if request.method == 'POST':
-        # Getting user's id
+        # Getting user's id, item, quantity
         user_id = session.get("user_id")
+        item = request.form.get("new_item")
+        quantity = request.form.get('modalnew_quantity')
         # Gettting live date and hours
         time = datetime.now(brazil_hour)
         formated_date = time.strftime("%d/%m/%y")
         formated_time = time.strftime("%H:%M")
         # Adding item to 'item' table and 'history' table
-        new_item = storage(owner=user_id, item=request.form.get('new_item'), quantity=request.form.get('modalnew_quantity'))
-        new_item_history = history(owner=user_id, item=request.form.get('new_item'), type='add', quantity=request.form.get('modalnew_quantity'),
+        new_item = storage(owner=user_id, item=item, quantity=quantity)
+        new_item_history = history(owner=user_id, item=item, type='add', quantity=quantity,
                                                     price=request.form.get('modalnew_price'), date=formated_date, time=formated_time)
         db.session.add(new_item)   
         db.session.add(new_item_history)   
@@ -210,7 +241,7 @@ def history_page():
     user_id = session.get("user_id")
     username = user.query.all()[user_id - 1].username
     # Getting User's history
-    user_history = history.query.filter_by(owner=session.get("user_id")).order_by(desc(history.date), desc(history.time)).all()
+    user_history = history.query.filter_by(owner=user_id).order_by(desc(history.date), desc(history.time)).all()
     # Checking if the user has any items
     if not user_history:
         empty = True
@@ -218,7 +249,7 @@ def history_page():
     else:
         empty = False
         return render_template("history.html", user_history=user_history, empty=empty, username=username)
-
+        
 @app.route('/logout')
 def logout_page():
 
