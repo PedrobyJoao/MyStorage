@@ -17,7 +17,7 @@ Home
                     <br>
                     <p>Do you own a business and need a system to organize your storage? To see what products you still have, what did you sell, for what price, when?</p>
                     <br>
-                    <p>Then we are a perfect match. I'm a software which can do all those things for you! Come with me, Register an account for free and start to organize your storage!</p>
+                    <p>Then we are a perfect match. I'm a software which can do all those things for you! Come with me, create an account for free and start to organize your storage!</p>
                 </div>
             </div>
         </div>
@@ -44,28 +44,40 @@ Home
                 </div>
             </div>
         </div>
-        <div class="container-md contact-margin" style="margin-top: 8%;">
+        <div class="container-md contact-margin" style="margin-top: 8%;" id="forms">
+            {% if contactform == False %}
             <div class="row text-center" id="contact">
                 <h1 style="font-size: 200%;">Contact</h1>
                 <h5 class="featuretextsize-mobile" style="font-size: 100%;">Let your message and email describing what you need to know about our service!</h5>
             </div><br>
             <div class="row forms">
-                <form action="">
+                <form action="/home" method="POST">
                     <div class="mb-3">
                         <label for="email" class="form-label">Email address</label>
-                        <input type="email" class="form-control" id="email" placeholder="name@example.com">
+                        <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com">
                     </div>
                     <div class="mb-3">
                         <label for="message" class="form-label">Message</label>
-                        <textarea class="form-control" id="message" rows="6" placeholder="Type your message here"></textarea>
+                        <textarea class="form-control" id="message" name="message" rows="6" placeholder="Type your message here"></textarea>
                     </div>
                     <div class="mb-3 form-check">
-                        <input type="checkbox" class="form-check-input" id="check">
+                        <input type="checkbox" class="form-check-input" id="check" name="captcha-contact">
                         <label class="form-check-label" for="check">I'm not a robot</label>
                       </div>
                       <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
             </div>
+            {% if error == True %}
+            <div class="row text-center alert alert-danger my-3 contact-margin" role="alert">
+                {{ error_message }}
+            </div>
+            {% endif %}
+            {% elif contactform == True %}
+            <div class="row text-center alert alert-success" role="alert">
+                We received your message!
+            </div>
+            {% endif %}
+            
         </div>
     </main>
 {% endblock %}

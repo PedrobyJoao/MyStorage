@@ -1,5 +1,10 @@
 // Function for the "NEW Item (Modal Action)"
 function checking_hasitem(data){
+    // Seeing if user has no items
+    if (data.length == 0){
+        return false;
+    }
+    console.log(data.length);
     // going through item names
     for (let i = 0; i < data.length; i++){
         // Getting new item name
@@ -11,6 +16,7 @@ function checking_hasitem(data){
             return true;
         }
     }
+    return false;
 }
 
 
@@ -20,7 +26,7 @@ function newitem_button(data){
     if (document.getElementById('item_action').value == '' || document.getElementById('new_quantity').value == '' || document.getElementById('new_price').value == ''){
         alert("You can't leave blank inputs!");
     }
-    else if(checking_hasitem(data) == true){
+    else if(checking_hasitem(data) == true && data != 'false'){
         alert("You already have the item!")
     }
     else{
