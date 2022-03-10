@@ -1,12 +1,11 @@
 from app import app, db
 from flask import redirect, render_template, request, session, url_for
-from app.models import user, storage, history
+from app.models import user, storage, history, contact
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask_session import Session
 from sqlalchemy import asc, desc
 from datetime import datetime
-import pytz
-import json
+import pytz, json
 
 from app.helpers import login_required, is_integer, usd
 
@@ -18,9 +17,37 @@ app.jinja_env.filters["usd"] = usd
 
 # Routes:
 @app.route('/')
-@app.route('/home')
+@app.route('/home', methods=["GET", "POST"])
 def home_page():
-    return render_template('home.html')
+    # POST for if the user was redirected through the form
+    # Initiating error boolean
+    error = False
+    if request.method == "POST":
+        # Checking if the user let message/email input black
+        message = request.form.get("message")
+        email = request.form.get("email")
+        if not message or not email:
+            error = True
+            error_message = "You can\'t leave blank inputs!"
+            contactform = False
+            return render_template("home.html", error=error, error_message=error_message, contactform=contactform)
+
+        # Checking if the user checked the Captcha
+        if not request.form.get("captcha-contact"):
+            error = True
+            error_message = "Robots are not allowed here for now!"
+            contactform = False
+            return render_template("home.html", error=error, error_message=error_message, contactform=contactform)
+        
+        # Storing the user's input in the contact table
+        contact_message = contact(email=email, message=message)
+        db.session.add(contact_message)   
+        db.session.commit()
+        contactform = True
+        return render_template("home.html", error=error, contactform=contactform)
+    elif request.method == "GET":
+        contactform = False
+        return render_template('home.html', contactform=contactform, error=error)
 
 @app.route('/login', methods=["GET", "POST"])
 def login_page():
@@ -60,7 +87,7 @@ def login_page():
                     # Checking captcha
                     if not request.form.get("captcha"):
                         error = True
-                        error_message = "Robots are not allowed here for now!"
+                        error_message = "Robots are not allowed here (for now)!"
                         return render_template("login.html", error=error, error_message=error_message)
                     # User is valid -> Login the user
                     # Remember which user has logged in
@@ -132,7 +159,7 @@ def storage_page():
     if request.method == "POST":
         # Getting item and quantity input
         item = request.form.get("modal_item")
-        quantity = int(request.form.get("modal_quantity"))
+        quantity = float(request.form.get("modal_quantity"))
         price = request.form.get("modal_price")
         # If the user let price blank, price will be 0
         if price == '':
@@ -142,6 +169,7 @@ def storage_page():
             message = "Quantity must be integer!"
             return render_template("error.html", message=message)
         # Getting how many items the user has before the update
+        quantity = int(quantity)
         old_quantity = storage.query.filter_by(owner=user_id, item=item).first().quantity
 
         # The user added/removed?
@@ -178,6 +206,10 @@ def storage_page():
     username = user.query.all()[user_id - 1].username
     # Showing user's owned items
     user_storage = storage.query.filter_by(owner=user_id).all()
+    # Checking if the user have any items at all:
+    if not user_storage:
+        empty = True
+        return render_template('storage.html', empty=empty, username=username)
 
     # Dictionary to store item averages
     item_avgs = {}
@@ -197,16 +229,10 @@ def storage_page():
         item_avgs[item.item.lower()] = average
         storage_items.append(item.item)
     
-    # Getting just the items
-      
-    # Checking if the user have any items at all:
-    if not user_storage:
-        empty = True
-        return render_template('storage.html', empty=empty, username=username)
-    else:
-        empty = False
-        return render_template('storage.html', user_storage=user_storage, username=username, empty=empty, 
-                                                item_avgs=item_avgs, storage_items=json.dumps(storage_items))
+    # Returning user's storage
+    empty = False
+    return render_template('storage.html', user_storage=user_storage, username=username, empty=empty, 
+                                            item_avgs=item_avgs, storage_items=json.dumps(storage_items))
 
 @app.route('/newitem', methods=["GET", "POST"])
 @login_required
