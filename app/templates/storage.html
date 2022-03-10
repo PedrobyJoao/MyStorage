@@ -63,7 +63,11 @@ Storage
                 <input type="text" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" id="item_action" name="item_action" placeholder="Item">
                 <input type="number" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" id="new_quantity" name="new_quantity" placeholder="Quantity">
                 <input type="number" aria-label="Dollar amount (with dot and two decimal places)" id="new_price" name="new_price" placeholder="Price">
+                {% if empty == True %}
+                <input type="submit" class="bi bi-plus-square-fill" value="Add new item" id="new_add" onclick='newitem_button("false")'>
+                {% else %}
                 <input type="submit" class="bi bi-plus-square-fill" value="Add new item" id="new_add" onclick='newitem_button({{ storage_items | safe }})'>
+                {% endif %}
             </div>
         </div>
         {% if error == True %}
