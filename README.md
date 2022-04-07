@@ -22,4 +22,4 @@ How to execute the program:<Br>
 In the terminal, type: "python run.py" and enter!<br>
 <Br>
 !IMPORTANT:<BR>
-This app was made to work on DESKTOP ONLY! Why? Being honest, I have no interest in wasting time with front-end development while I could being learning things that I like
+This app was made to work on DESKTOP ONLY! Why? Being honest, I have no interest in wasting time with front-end development while I could being learning things that I like. So the app has no design responsiveness for other platforms
