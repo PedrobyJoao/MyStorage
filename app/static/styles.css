@@ -44,6 +44,36 @@
     .contact-margin{
         margin-top:20% !important;
     }
+    .login-forms{
+        width: 80%;
+        margin-left: 10%;
+        margin-bottom: 50%;
+    }
+    .table-class{
+        display: block;
+        margin: 0 auto;
+        width: 90%;
+        overflow-x: auto;
+        overflow-x: scroll
+    }
+    .table-input{
+            display: flex;
+            width: 310px;
+    }
+    .table-input input{
+        margin: 0.4rem;
+    }
+    #input-row{
+        padding: 0;
+        margin-right: 1rem;
+        display: flex;
+    }
+    .table-input .dolar-sign{
+        display: none !important;
+    }
+    #storage_table th{
+        width:100px ;
+    }
 }
 @media screen and (min-width: 950px)  {
     .navbar.navbar-brand{
@@ -73,8 +103,12 @@
         margin-top: 5%;
     }
 }
-p{
-    font-size: 105%;
+
+/* ============= Home Config ============= */
+.navbar-dark .navbar-nav .nav-link.active,
+.navbar-dark .navbar-nav .nav-link:hover{
+    color: #d4a43d !important;
+    font-size: 18px;
 }
 #vertical_line{
     padding-left: 7%;
@@ -91,11 +125,6 @@ body{
     box-sizing: border-box;
     overflow-x: hidden;
 }
-.navbar-dark .navbar-nav .nav-link.active,
-.navbar-dark .navbar-nav .nav-link:hover{
-    color: #d4a43d !important;
-    font-size: 18px;
-}
 .links{
     color:#000000;
     font-size: 3rem;
@@ -106,6 +135,33 @@ body{
     text-decoration: underline;
     text-underline-position: under;
 }
+p{
+    font-size: 105%;
+}
+
+/* ============= Table (Storage) Config ============= */
+.table-input input{
+    margin: 0.4rem;
+}
+.table-input .dolar-sign{
+    display: flex;
+    justify-content: center;
+    width: 15px;
+    height: 30px;
+    margin-top: 1.15%;
+    margin-right: 0.2%;
+    margin-left: 0.8% !important;
+}
+.td-lastchild{
+    padding-left: 30% !important;
+}
+.td-secondchild{
+    padding-left: 15% !important;
+}
+table{
+    border: 1px rgb(0, 0, 0) solid !important;
+}
+/* ============= Footer Config ============= */
 .footer{
     position: fixed;
     left: 0;
@@ -116,22 +172,3 @@ body{
     margin-top: 7%;
     width:100%;
  }
- .error{
-     margin-top: 3%;
-     color: red;
-     text-align: center;
- }
- .success{
-    margin-top: 3%;
-    color: rgb(30, 207, 30);
-    text-align: center;
-}
-.td-lastchild{
-    padding-left: 30% !important;
-}
-.td-secondchild{
-    padding-left: 15% !important;
-}
-  
-  
-
