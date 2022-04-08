@@ -22,9 +22,4 @@ How to execute the program:<Br>
 In the terminal, type: "python run.py" and enter!<br>
 <Br>
 !IMPORTANT:<BR>
-Current state of project: 90%.<Br>
-The main part is already done, so you can already see how it is working.<br><br>
-What I have to add is:<br>
-- Contact form redirect message to my email<Br>
-- Add the option which the user doesn't need to type the price for every item<Br>
-- Front-end: The storage/history tables are not responsive yet
+This app was made to work on DESKTOP ONLY! Why? Being honest, I have no interest in wasting time with front-end development while I could being learning things that I'm really interested with. So the app has no design responsiveness for other platforms
