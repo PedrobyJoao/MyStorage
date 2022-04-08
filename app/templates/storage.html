@@ -9,8 +9,8 @@ Storage
         <div class="row text-center">
             <h1>Storage</h1>
         </div><br>
-        <div class="row table-responsive">
-            <table class="table table-light table-striped table-hover caption-top" id="storage_table">
+        <div class="row">
+            <table class="table table-responsive table-light table-striped table-hover caption-top table-class" id="storage_table">
                 <caption>Welcome '{{ username }}'!</caption>
                 <thead class="thead-dark">
                     <tr>
@@ -30,13 +30,13 @@ Storage
                                 </div>
                             </th>
                             <td class="td-secondchild" style="text-align: center;">{{ item.quantity }}</td>
-                            <td class="td-lastchild">
-                                    <div class="input-group input-group-sm mb-3">
+                            <td class="td-lastchild" id="input-row">
+                                    <div class="input-group input-group-sm mb-3 table-input">
                                         <input type="hidden" name="item_{{ item.item }}" id="item_{{ item.item }}" value="{{ item.item }}">
                                         <input type="number" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" id="quantity_{{ item.item }}" 
                                                     name="quantity_{{ item.item }}" placeholder="Quantity">
-                                        <span class="input-group-text">$</span>
-                                        <input type="number" aria-label="Dollar amount (with dot and two decimal places)" id="price_{{ item.item }}" name="price_{{ item.item }}" placeholder="Price">
+                                        <span class="input-group-text dolar-sign">$</span>
+                                        <input class="price-input" type="number" aria-label="Dollar amount (with dot and two decimal places)" id="price_{{ item.item }}" name="price_{{ item.item }}" placeholder="Price">
                                         <input type="submit" class="btn btn-success" data-toggle="modal" data-target="#modal-storage" value="add" id="add_{{ item.item }}" 
                                                     onclick="modal_button('add', 'item_{{ item.item }}', 'quantity_{{ item.item }}', 'price_{{ item.item }}')">
                                         <input type="submit" class="btn btn-danger" data-toggle="modal" data-target="#modal-storage" value="remove" id="remove_{{ item.item }}" 
