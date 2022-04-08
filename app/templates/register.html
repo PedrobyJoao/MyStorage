@@ -5,11 +5,11 @@ Register
 {% endblock %}
 
 {% block main %}
-    <main class="container">
+    <main class="container login-forms">
         <div class="row text-center">
             <h1>Register</h1>
         </div><br>
-        <form class="row login-forms" action="/register" method="post">
+        <form class="row" action="/register" method="post">
             <div class="mb-3">
               <label for="username" class="form-label" autofocus>Username</label>
               <input type="username" class="form-control" id="username" name="username" aria-describedby="emailHelp">
@@ -30,7 +30,7 @@ Register
             <button type="submit" class="btn btn-primary">Create Account</button>
           </form>
           {% if error == True %}
-            <div class="row alert alert-danger login-forms my-3" role="alert">
+            <div class="row alert alert-danger my-3" role="alert">
               {{ error_message }}
             </div>
           {% endif %}
